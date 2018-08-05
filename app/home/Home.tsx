@@ -3,7 +3,7 @@ import { WithStyles } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
 import withRoot from '../containers/WithRoot';
 import { IState } from '../reducers';
-import { Dispatch, bindActionCreators } from 'redux';
+import { Dispatch, bindActionCreators, Action } from 'redux';
 import { GetGitStatus } from './GitStatus';
 import { connect } from 'react-redux';
 
@@ -42,7 +42,7 @@ function mapStateToProps(state: IState): Partial<IHomePageProps> {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IState>): Partial<IHomePageProps> {
+function mapDispatchToProps(dispatch: Dispatch<Action<IState>>): Partial<IHomePageProps> {
   return bindActionCreators({ GetGitStatus }, dispatch);
 }
 

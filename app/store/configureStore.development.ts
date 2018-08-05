@@ -9,6 +9,11 @@ import * as counterActions from '../actions/counter';
 import createElectronStorage from "redux-persist-electron-storage";
 import { persistStore, persistReducer } from 'redux-persist';
 import { IStoreWithPersistor } from './IStoreWithPersistor';
+import { IState } from '../reducers/index';
+import epics from '../epics/epics';
+import { createEpicMiddleware } from 'redux-observable';
+
+const epicMiddleware = createEpicMiddleware();
 
 declare const window: Window & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?(a: any): void;
@@ -20,9 +25,9 @@ declare const module: NodeModule & {
   },
 };
 
-const actionCreators = Object.assign({}, 
+const actionCreators = Object.assign({},
   counterActions,
-  {push}
+  { push }
 );
 
 const logger = (<any>createLogger)({
@@ -50,12 +55,12 @@ const composeEnhancers: typeof compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPO
   compose;
 /* eslint-enable no-underscore-dangle */
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, router, logger),
+  applyMiddleware(thunk, router, logger, epicMiddleware),
 );
 
 export = {
   history,
-  configureStore(initialState: object | void): IStoreWithPersistor {
+  configureStore(initialState: IState): IStoreWithPersistor {
     const store = createStore(persistedReducer, initialState, enhancer);
     const persistor = persistStore(store);
     if (module.hot) {
@@ -63,6 +68,8 @@ export = {
         store.replaceReducer(require('../reducers').default),
       );
     }
+
+    epicMiddleware.run(epics);
 
     return { store, persistor };
   },
