@@ -1,14 +1,14 @@
 import { combineReducers, Reducer } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import counter, { TState as TCounterState } from './counter';
+import { gitStatus } from '../home/GitStatus';
 
 const rootReducer = combineReducers({
-  counter,
-  routing: routing as Reducer<any>
+  routing: routing as Reducer<any>,
+  gitStatus,
 });
 
 export interface IState {
-  counter: TCounterState;
+  gitStatus: string;
 }
 
 export default rootReducer;

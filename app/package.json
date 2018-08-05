@@ -1,8 +1,8 @@
 {
-  "name": "electron-react-typescript-boilerplate",
-  "productName": "electron-typescript-react-boilerplate",
+  "name": "gitux",
+  "productName": "Gitux",
   "version": "1.0.0",
-  "description": "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
+  "description": "Gitux",
   "main": "./main.js",
   "author": {
     "name": "Alexander Rath",
